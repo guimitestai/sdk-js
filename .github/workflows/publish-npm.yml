@@ -1,0 +1,54 @@
+name: Publicar no npm
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Testes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+      - name: Instalar dependências
+        run: pnpm install --frozen-lockfile
+      - name: Verificar tipos
+        run: pnpm typecheck
+      - name: Executar testes
+        run: pnpm test
+
+  publish:
+    name: Publicar no npm
+    needs: [test]
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
+      - name: Instalar dependências
+        run: pnpm install --frozen-lockfile
+      - name: Build do pacote
+        run: pnpm build
+      - name: Publicar no npm
+        run: pnpm publish --no-git-checks --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
