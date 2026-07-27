@@ -1,5 +1,5 @@
 {
-  "name": "@guimitestai/sdk",
+  "name": "guimitestai",
   "version": "0.1.2",
   "description": "🧪 Guimí Test AI — SDK TypeScript para testes, observabilidade e conformidade de LLMs. LLM-as-Judge, Red-Teaming, LGPD/EU AI Act.",
   "main": "./dist/index.js",
@@ -39,7 +39,7 @@
     "type": "git",
     "url": "https://github.com/guimitestai/sdk-js.git"
   },
-  "homepage": "https://guimitestai.com/docs/sdk",
+  "homepage": "https://guimitestai.com/docs/sdk-js",
   "bugs": {
     "url": "https://github.com/guimitestai/sdk-js/issues"
   },
